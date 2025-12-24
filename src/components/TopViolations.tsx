@@ -15,7 +15,7 @@ export default function TopViolations({ violations }: TopViolationsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base font-medium">Топ нарушений</CardTitle>
+        <CardTitle className="text-base font-medium">Частые нарушения</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronsUpDown, Plus, LayoutDashboard } from "lucide-react"
+import { ChevronsUpDown, Plus } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -19,15 +19,23 @@ import {
 
 export function TeamSwitcher({
   teams,
+  onTeamChange,
 }: {
   teams: {
     name: string
     logo: React.ElementType
     plan: string
   }[]
+  onTeamChange?: (team: { name: string; logo: React.ElementType; plan: string }) => void
 }) {
   const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
+
+  React.useEffect(() => {
+    if (activeTeam && onTeamChange) {
+      onTeamChange(activeTeam)
+    }
+  }, [activeTeam, onTeamChange])
 
   if (!activeTeam) {
     return null
@@ -66,7 +74,10 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => {
+                  setActiveTeam(team)
+                  onTeamChange?.(team)
+                }}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">

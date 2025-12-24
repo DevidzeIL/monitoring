@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
-import { AlertCircle, Clock, Filter } from "lucide-react"
+import { Clock, Filter } from "lucide-react"
 
 const mockEvents = [
   {

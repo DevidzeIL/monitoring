@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type React from "react";
 import { AppSidebar } from "./components/app-sidebar";
 import {
   SidebarProvider,
@@ -14,7 +15,7 @@ import EventsPage from "./pages/EventsPage";
 import CamerasPage from "./pages/CamerasPage";
 
 const pageTitles: Record<string, string> = {
-  overview: "Единый дашборд состояния строительной площадки",
+  overview: "Состояние строительной площадки",
   ppe: "Контроль СИЗ и опасных зон",
   cargo: "Контроль операций с грузом",
   loading: "Загрузка крана и эффективность",
@@ -26,6 +27,9 @@ const pageTitles: Record<string, string> = {
 function App() {
   const [currentTime, setCurrentTime] = useState("");
   const [activePage, setActivePage] = useState("overview");
+  const [selectedTeam, setSelectedTeam] = useState<{ name: string } | null>(
+    null
+  );
 
   useEffect(() => {
     const updateTime = () => {
@@ -43,6 +47,27 @@ function App() {
 
   const handlePageChange = (page: string) => {
     setActivePage(page);
+  };
+
+  const handleTeamChange = (team: {
+    name: string;
+    logo: React.ElementType;
+    plan: string;
+  }) => {
+    setSelectedTeam(team);
+  };
+
+  const getPageTitle = () => {
+    const baseTitle = pageTitles[activePage] || pageTitles.overview;
+    if (activePage === "overview" && selectedTeam) {
+      // Извлекаем номер площадки из названия (например, "Площадка №1" -> "№1")
+      const match = selectedTeam.name.match(/№(\d+)/);
+      if (match) {
+        return `Состояние строительной площадки ${match[0]}`;
+      }
+      return `${baseTitle} • ${selectedTeam.name}`;
+    }
+    return baseTitle;
   };
 
   const renderPage = () => {
@@ -68,14 +93,16 @@ function App() {
 
   return (
     <SidebarProvider>
-      <AppSidebar activePage={activePage} onPageChange={handlePageChange} />
+      <AppSidebar
+        activePage={activePage}
+        onPageChange={handlePageChange}
+        onTeamChange={handleTeamChange}
+      />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <div className="flex items-center justify-between flex-1">
-            <h1 className="text-xl font-semibold">
-              {pageTitles[activePage] || pageTitles.overview}
-            </h1>
+            <h1 className="text-xl font-semibold">{getPageTitle()}</h1>
             <div className="text-sm text-muted-foreground">
               Обновлено: {currentTime}
             </div>

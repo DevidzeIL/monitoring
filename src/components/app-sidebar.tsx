@@ -93,17 +93,23 @@ const data = {
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activePage?: string;
   onPageChange?: (page: string) => void;
+  onTeamChange?: (team: {
+    name: string;
+    logo: React.ElementType;
+    plan: string;
+  }) => void;
 }
 
 export function AppSidebar({
   activePage,
   onPageChange,
+  onTeamChange,
   ...props
 }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher teams={data.teams} onTeamChange={onTeamChange} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain

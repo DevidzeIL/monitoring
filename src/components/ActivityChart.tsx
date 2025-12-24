@@ -5,8 +5,6 @@ interface ActivityChartProps {
 }
 
 export default function ActivityChart({ data }: ActivityChartProps) {
-  const maxValue = 100
-
   return (
     <Card>
       <CardHeader>

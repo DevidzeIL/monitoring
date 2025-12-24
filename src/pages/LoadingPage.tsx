@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Progress } from "../components/ui/progress"
-import { Activity, TrendingUp, Clock, Users } from "lucide-react"
+import { Activity, Users } from "lucide-react"
 
 const mockLoadingData = {
   currentShift: {
