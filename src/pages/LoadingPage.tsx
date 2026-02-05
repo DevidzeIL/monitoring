@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Progress } from "../components/ui/progress"
 import { Activity, Users } from "lucide-react"
+import { useLanguage } from "../hooks/use-language"
 
 const mockLoadingData = {
   currentShift: {
@@ -26,12 +27,15 @@ const mockShifts = [
 ]
 
 export default function LoadingPage() {
+  const { t, language } = useLanguage()
   return (
     <div className="max-w-7xl mx-auto w-full space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Загрузка крана и эффективность</h2>
+        <h2 className="text-2xl font-bold mb-2">{t.pageTitles.loading}</h2>
         <p className="text-muted-foreground">
-          Анализ работы и простоя крана, оценка эффективности бригад
+          {language === "en"
+            ? "Crane work and idle time analysis, team efficiency assessment"
+            : "Анализ работы и простоя крана, оценка эффективности бригад"}
         </p>
       </div>
 
@@ -39,12 +43,12 @@ export default function LoadingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Текущая смена</CardTitle>
+            <CardTitle>{t.loading.currentShift}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm text-muted-foreground">Работа</span>
+                <span className="text-sm text-muted-foreground">{t.loading.work}</span>
                 <span className="text-sm font-medium">
                   {mockLoadingData.currentShift.workTime}%
                 </span>
@@ -53,7 +57,7 @@ export default function LoadingPage() {
             </div>
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm text-muted-foreground">Простой</span>
+                <span className="text-sm text-muted-foreground">{t.loading.idle}</span>
                 <span className="text-sm font-medium">
                   {mockLoadingData.currentShift.idleTime}%
                 </span>
@@ -63,7 +67,7 @@ export default function LoadingPage() {
             <div className="pt-4 border-t">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  Отработано часов
+                  {t.loading.hoursWorked}
                 </span>
                 <span className="text-2xl font-bold">
                   {mockLoadingData.currentShift.totalHours}
@@ -75,23 +79,23 @@ export default function LoadingPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>За сегодня</CardTitle>
+            <CardTitle>{t.loading.today}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Работа</p>
+                <p className="text-sm text-muted-foreground mb-1">{t.loading.work}</p>
                 <p className="text-3xl font-bold">{mockLoadingData.today.workTime}%</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Простой</p>
+                <p className="text-sm text-muted-foreground mb-1">{t.loading.idle}</p>
                 <p className="text-3xl font-bold">{mockLoadingData.today.idleTime}%</p>
               </div>
             </div>
             <div className="pt-4 border-t">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  Операций выполнено
+                  {t.loading.operationsCompleted}
                 </span>
                 <span className="text-2xl font-bold">
                   {mockLoadingData.today.operations}
@@ -109,7 +113,7 @@ export default function LoadingPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Эффективность крана
+                  {t.loading.craneEfficiency}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockLoadingData.efficiency.crane}%
@@ -125,7 +129,7 @@ export default function LoadingPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Эффективность бригады
+                  {t.loading.teamEfficiency}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockLoadingData.efficiency.team}%
@@ -140,7 +144,7 @@ export default function LoadingPage() {
       {/* Shifts History */}
       <Card>
         <CardHeader>
-          <CardTitle>История смен</CardTitle>
+          <CardTitle>{t.loading.shiftHistory}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -149,13 +153,13 @@ export default function LoadingPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{shift.time}</span>
                   <span className="text-xs text-muted-foreground">
-                    {shift.status === "active" ? "Активна" : "Завершена"}
+                    {shift.status === "active" ? t.ui.active : t.ui.completed}
                   </span>
                 </div>
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Работа: {shift.work}%</span>
-                    <span>Простой: {shift.idle}%</span>
+                    <span>{t.loading.work}: {shift.work}%</span>
+                    <span>{t.loading.idle}: {shift.idle}%</span>
                   </div>
                   <div className="flex gap-1 h-2">
                     <div

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Clock, CheckCircle2, AlertCircle } from "lucide-react"
 import { Badge } from "./ui/badge"
+import { useLanguage } from "@/hooks/use-language"
 
 interface Operation {
   id: number
@@ -17,10 +18,11 @@ interface OperationsTimelineProps {
 export default function OperationsTimeline({
   operations,
 }: OperationsTimelineProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base font-medium">Последние операции</CardTitle>
+        <CardTitle className="text-base font-medium">{t.ui.lastOperations}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
@@ -74,10 +76,10 @@ export default function OperationsTimeline({
                 }
               >
                 {operation.status === "completed"
-                  ? "Завершена"
+                  ? t.ui.completed
                   : operation.status === "warning"
-                  ? "Предупреждение"
-                  : "Активна"}
+                  ? t.ui.warning
+                  : t.ui.active}
               </Badge>
             </div>
           ))}

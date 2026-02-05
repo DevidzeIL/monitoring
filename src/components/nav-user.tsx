@@ -8,6 +8,7 @@ import {
   Settings,
   Sun,
   User,
+  Languages,
 } from "lucide-react"
 
 import {
@@ -23,6 +24,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
   SidebarMenu,
@@ -31,6 +35,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useTheme } from "@/hooks/use-theme"
+import { useLanguage } from "@/hooks/use-language"
 
 export function NavUser({
   user,
@@ -43,6 +48,7 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
   const { theme, toggleTheme } = useTheme()
+  const { language, setLanguage, t } = useLanguage()
 
   return (
     <SidebarMenu>
@@ -98,35 +104,68 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <User />
-                Профиль
+                {t.userMenu.profile}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings />
-                Настройки
+                {t.userMenu.settings}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Уведомления
+                {t.userMenu.notifications}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Languages />
+                {t.userMenu.language}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem
+                  onClick={() => setLanguage("en")}
+                  className={language === "en" ? "bg-accent" : ""}
+                >
+                  {t.userMenu.english}
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem
+                  onClick={() => setLanguage("de")}
+                  className={language === "de" ? "bg-accent" : ""}
+                >
+                  {t.userMenu.german}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setLanguage("es")}
+                  className={language === "es" ? "bg-accent" : ""}
+                >
+                  {t.userMenu.spanish}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setLanguage("ru")}
+                  className={language === "ru" ? "bg-accent" : ""}
+                >
+                  {t.userMenu.russian}
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
             <DropdownMenuItem onClick={toggleTheme}>
               {theme === "light" ? (
                 <>
                   <Moon />
-                  Тёмная тема
+                  {t.userMenu.darkTheme}
                 </>
               ) : (
                 <>
                   <Sun />
-                  Светлая тема
+                  {t.userMenu.lightTheme}
                 </>
               )}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut />
-              Выйти
+              {t.userMenu.logout}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

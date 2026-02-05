@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Shield, TrendingDown } from "lucide-react"
+import { useLanguage } from "@/hooks/use-language"
 
 interface SafetyTrendProps {
   current: number
@@ -12,6 +13,7 @@ export default function SafetyTrend({
   previous,
   trend,
 }: SafetyTrendProps) {
+  const { t } = useLanguage()
   const change = current - previous
   const changePercent =
     previous > 0 ? Math.round((Math.abs(change) / previous) * 100) : 0
@@ -21,7 +23,7 @@ export default function SafetyTrend({
       <CardHeader>
         <CardTitle className="text-base font-medium flex items-center gap-2">
           <Shield className="h-4 w-4" />
-          Индекс безопасности
+          {t.components.safetyIndex}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -36,24 +38,24 @@ export default function SafetyTrend({
             {trend === "improving" && (
               <div className="flex items-center gap-2 text-sm text-green-500">
                 <TrendingDown className="h-4 w-4" />
-                Улучшение на {changePercent}% за неделю
+                {t.components.improvement} {changePercent}% {t.components.perWeek}
               </div>
             )}
             {trend === "worsening" && (
               <div className="flex items-center gap-2 text-sm text-red-500">
                 <TrendingDown className="h-4 w-4 rotate-180" />
-                Ухудшение на {changePercent}% за неделю
+                {t.components.worsening} {changePercent}% {t.components.perWeek}
               </div>
             )}
             {trend === "stable" && (
               <div className="text-sm text-muted-foreground">
-                Стабильный показатель
+                {t.components.stable}
               </div>
             )}
           </div>
           <div className="pt-4 border-t">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Предыдущий период</span>
+              <span className="text-muted-foreground">{t.components.previousPeriod}</span>
               <span className="font-medium">{previous}/100</span>
             </div>
           </div>

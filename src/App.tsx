@@ -13,18 +13,10 @@ import LoadingPage from "./pages/LoadingPage";
 import ReportsPage from "./pages/ReportsPage";
 import EventsPage from "./pages/EventsPage";
 import CamerasPage from "./pages/CamerasPage";
-
-const pageTitles: Record<string, string> = {
-  overview: "Состояние строительной площадки",
-  ppe: "Контроль СИЗ и опасных зон",
-  cargo: "Контроль операций с грузом",
-  loading: "Загрузка крана и эффективность",
-  reports: "Отчёты о работе",
-  events: "Журнал событий",
-  cameras: "Мониторинг камер",
-};
+import { useLanguage } from "./hooks/use-language";
 
 function App() {
+  const { t } = useLanguage();
   const [currentTime, setCurrentTime] = useState("");
   const [activePage, setActivePage] = useState("overview");
   const [selectedTeam, setSelectedTeam] = useState<{ name: string } | null>(
@@ -58,12 +50,21 @@ function App() {
   };
 
   const getPageTitle = () => {
-    const baseTitle = pageTitles[activePage] || pageTitles.overview;
+    const pageTitles = {
+      overview: t.pageTitles.overview,
+      ppe: t.pageTitles.ppe,
+      cargo: t.pageTitles.cargo,
+      loading: t.pageTitles.loading,
+      reports: t.pageTitles.reports,
+      events: t.pageTitles.events,
+      cameras: t.pageTitles.cameras,
+    };
+    const baseTitle = pageTitles[activePage as keyof typeof pageTitles] || pageTitles.overview;
     if (activePage === "overview" && selectedTeam) {
-      // Извлекаем номер площадки из названия (например, "Площадка №1" -> "№1")
-      const match = selectedTeam.name.match(/№(\d+)/);
+      // Extract site number from name (e.g., "Site #1" -> "#1" or "Площадка №1" -> "№1")
+      const match = selectedTeam.name.match(/([№#]\d+)/);
       if (match) {
-        return `Состояние строительной площадки ${match[0]}`;
+        return `${t.pageTitles.overview} ${match[0]}`;
       }
       return `${baseTitle} • ${selectedTeam.name}`;
     }
@@ -104,7 +105,7 @@ function App() {
           <div className="flex items-center justify-between flex-1">
             <h1 className="text-xl font-semibold">{getPageTitle()}</h1>
             <div className="text-sm text-muted-foreground">
-              Обновлено: {currentTime}
+              {t.common.updated}: {currentTime}
             </div>
           </div>
         </header>

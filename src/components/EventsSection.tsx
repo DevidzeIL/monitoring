@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
+import { useLanguage } from "@/hooks/use-language"
 
 interface Event {
   id: number
@@ -13,13 +14,14 @@ interface EventsSectionProps {
 }
 
 export default function EventsSection({ events }: EventsSectionProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-medium">События</CardTitle>
+          <CardTitle className="text-base font-medium">{t.events.title}</CardTitle>
           <Badge variant="secondary" className="text-xs">
-            Последние 24ч
+            {t.ui.last24Hours}
           </Badge>
         </div>
       </CardHeader>

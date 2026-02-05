@@ -3,59 +3,62 @@ import { Badge } from "../components/ui/badge"
 import { Video, Wifi, WifiOff } from "lucide-react"
 import camera1Image from "../assets/photo_2025-12-23_16-21-56.jpg"
 import camera2Image from "../assets/photo_2025-12-23_16-22-26.jpg"
-
-const mockCameras = [
-  {
-    id: 1,
-    name: "Камера • конец стрелы",
-    status: "online" as const,
-    location: "Конец стрелы крана",
-    image: camera1Image,
-  },
-  {
-    id: 2,
-    name: "Камера • над тележкой",
-    status: "online" as const,
-    location: "Над тележкой, обзор вдоль троса",
-    image: camera2Image,
-  },
-  {
-    id: 3,
-    name: "Камера • зона разгрузки",
-    status: "online" as const,
-    location: "Зона разгрузки материалов",
-    image: null,
-  },
-  {
-    id: 4,
-    name: "Камера • склад",
-    status: "offline" as const,
-    location: "Склад строительных материалов",
-    image: null,
-  },
-  {
-    id: 5,
-    name: "Камера • главный вход",
-    status: "online" as const,
-    location: "Главный вход на площадку",
-    image: null,
-  },
-  {
-    id: 6,
-    name: "Камера • зона крана (обзор)",
-    status: "online" as const,
-    location: "Общий обзор зоны работы крана",
-    image: null,
-  },
-]
+import { useLanguage } from "../hooks/use-language"
 
 export default function CamerasPage() {
+  const { t } = useLanguage()
+  
+  const mockCameras = [
+    {
+      id: 1,
+      name: `${t.overview.camera} • ${t.cameras.endOfBoom}`,
+      status: "online" as const,
+      location: t.cameras.endOfBoom,
+      image: camera1Image,
+    },
+    {
+      id: 2,
+      name: `${t.overview.camera} • ${t.cameras.aboveTrolley}`,
+      status: "online" as const,
+      location: t.cameras.aboveTrolley,
+      image: camera2Image,
+    },
+    {
+      id: 3,
+      name: `${t.overview.camera} • ${t.cameras.unloadingZone}`,
+      status: "online" as const,
+      location: t.cameras.unloadingZone,
+      image: null,
+    },
+    {
+      id: 4,
+      name: `${t.overview.camera} • ${t.cameras.warehouse}`,
+      status: "offline" as const,
+      location: t.cameras.warehouse,
+      image: null,
+    },
+    {
+      id: 5,
+      name: `${t.overview.camera} • ${t.cameras.mainEntrance}`,
+      status: "online" as const,
+      location: t.cameras.mainEntrance,
+      image: null,
+    },
+    {
+      id: 6,
+      name: `${t.overview.camera} • ${t.cameras.craneZoneOverview}`,
+      status: "online" as const,
+      location: t.cameras.craneZoneOverview,
+      image: null,
+    },
+  ]
+
   return (
     <div className="max-w-7xl mx-auto w-full space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Мониторинг камер</h2>
+        <h2 className="text-2xl font-bold mb-2">{t.cameras.title}</h2>
         <p className="text-muted-foreground">
-          Просмотр всех камер в режиме реального времени
+          {t.cameras.description}
         </p>
       </div>
 
@@ -66,7 +69,7 @@ export default function CamerasPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Всего камер
+                  {t.cameras.totalCameras}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockCameras.length}
@@ -82,7 +85,7 @@ export default function CamerasPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Онлайн
+                  {t.cameras.online}
                 </p>
                 <p className="text-3xl font-bold text-green-500">
                   {mockCameras.filter((c) => c.status === "online").length}
@@ -98,7 +101,7 @@ export default function CamerasPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Офлайн
+                  {t.cameras.offline}
                 </p>
                 <p className="text-3xl font-bold text-red-500">
                   {mockCameras.filter((c) => c.status === "offline").length}
@@ -126,12 +129,12 @@ export default function CamerasPage() {
                   {camera.status === "online" ? (
                     <>
                       <Wifi className="h-3 w-3 mr-1" />
-                      Онлайн
+                      {t.cameras.online}
                     </>
                   ) : (
                     <>
                       <WifiOff className="h-3 w-3 mr-1" />
-                      Офлайн
+                      {t.cameras.offline}
                     </>
                   )}
                 </Badge>
@@ -153,8 +156,8 @@ export default function CamerasPage() {
                     <Video className="h-8 w-8 text-muted-foreground" />
                     <span className="text-muted-foreground text-sm">
                       {camera.status === "offline"
-                        ? "Камера недоступна"
-                        : "Видеопоток"}
+                        ? t.cameras.cameraUnavailable
+                        : t.cameras.videoStream}
                     </span>
                   </div>
                 )}

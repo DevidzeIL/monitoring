@@ -4,49 +4,52 @@ import VideoSection from "../components/VideoSection"
 import camera1Image from "../assets/photo_2025-12-23_16-21-56.jpg"
 import camera2Image from "../assets/photo_2025-12-23_16-22-26.jpg"
 import { Package, AlertCircle, CheckCircle2, Clock } from "lucide-react"
-
-const mockCargoOperations = [
-  {
-    id: 1,
-    type: "lift",
-    status: "active" as const,
-    description: "Подъём бетонных блоков",
-    startTime: "14:20",
-    zone: "Зона разгрузки",
-  },
-  {
-    id: 2,
-    type: "move",
-    status: "completed" as const,
-    description: "Перемещение арматуры",
-    startTime: "13:45",
-    endTime: "14:10",
-    zone: "Склад → Стройплощадка",
-  },
-  {
-    id: 3,
-    type: "danger",
-    status: "warning" as const,
-    description: "Обнаружены люди в зоне под крюком",
-    startTime: "13:30",
-    zone: "Зона подъёма",
-  },
-]
-
-const mockCargoStats = {
-  totalOperations: 47,
-  activeOperations: 1,
-  completedToday: 46,
-  averageTime: "12 мин",
-}
+import { useLanguage } from "../hooks/use-language"
 
 export default function CargoPage() {
+  const { t } = useLanguage()
+  
+  const mockCargoOperations = [
+    {
+      id: 1,
+      type: "lift",
+      status: "active" as const,
+      description: t.operations.concreteBlocksLift,
+      startTime: "14:20",
+      zone: t.cargo.unloadingZone,
+    },
+    {
+      id: 2,
+      type: "move",
+      status: "completed" as const,
+      description: t.operations.rebarMove,
+      startTime: "13:45",
+      endTime: "14:10",
+      zone: t.cargo.warehouseToSite,
+    },
+    {
+      id: 3,
+      type: "danger",
+      status: "warning" as const,
+      description: t.operations.peopleInZone,
+      startTime: "13:30",
+      zone: t.cargo.liftZone,
+    },
+  ]
+
+  const mockCargoStats = {
+    totalOperations: 47,
+    activeOperations: 1,
+    completedToday: 46,
+    averageTime: `12 ${t.operations.minutes}`,
+  }
+
   return (
     <div className="max-w-7xl mx-auto w-full space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Контроль операций с грузом</h2>
+        <h2 className="text-2xl font-bold mb-2">{t.cargo.title}</h2>
         <p className="text-muted-foreground">
-          Мониторинг подъёма и перемещения груза, контроль опасных ситуаций
+          {t.cargo.description}
         </p>
       </div>
 
@@ -57,7 +60,7 @@ export default function CargoPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Всего операций
+                  {t.cargo.totalOperations}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockCargoStats.totalOperations}
@@ -73,7 +76,7 @@ export default function CargoPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Активных
+                  {t.cargo.active}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockCargoStats.activeOperations}
@@ -89,7 +92,7 @@ export default function CargoPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Завершено сегодня
+                  {t.cargo.completedToday}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockCargoStats.completedToday}
@@ -105,7 +108,7 @@ export default function CargoPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Среднее время
+                  {t.cargo.averageTime}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockCargoStats.averageTime}
@@ -120,9 +123,9 @@ export default function CargoPage() {
       {/* Video Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <VideoSection
-          title="Камера • конец стрелы"
-          status="Онлайн"
-          operation="Мониторинг подъёма груза"
+          title={`${t.overview.camera} • ${t.overview.endOfBoom}`}
+          status={t.common.online}
+          operation={t.cargo.monitoringCargoLift}
           timelineMarkers={[
             { position: 20, color: "blue" },
             { position: 60, color: "red" },
@@ -130,9 +133,9 @@ export default function CargoPage() {
           imageSrc={camera1Image}
         />
         <VideoSection
-          title="Камера • над тележкой"
-          status="Онлайн"
-          operation="Контроль зоны под крюком"
+          title={`${t.overview.camera} • ${t.overview.aboveTrolley}`}
+          status={t.common.online}
+          operation={t.cargo.hookZoneControl}
           timelineMarkers={[
             { position: 30, color: "red" },
             { position: 70, color: "blue" },
@@ -144,7 +147,7 @@ export default function CargoPage() {
       {/* Operations List */}
       <Card>
         <CardHeader>
-          <CardTitle>Операции с грузом</CardTitle>
+          <CardTitle>{t.cargo.cargoOperations}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -187,10 +190,10 @@ export default function CargoPage() {
                     }
                   >
                     {operation.status === "active"
-                      ? "Активна"
+                      ? t.ui.active
                       : operation.status === "warning"
-                      ? "Предупреждение"
-                      : "Завершена"}
+                      ? t.ui.warning
+                      : t.ui.completed}
                   </Badge>
                 </div>
               </div>

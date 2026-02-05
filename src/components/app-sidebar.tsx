@@ -19,76 +19,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
-// Данные для нашего дашборда
-const data = {
-  teams: [
-    {
-      name: "Площадка №1",
-      logo: LayoutDashboard,
-      plan: "Активна",
-    },
-    {
-      name: "Площадка №2",
-      logo: LayoutDashboard,
-      plan: "Неактивна",
-    },
-    {
-      name: "Площадка №3",
-      logo: LayoutDashboard,
-      plan: "Неактивна",
-    },
-  ],
-  navMain: [
-    {
-      title: "Обзор",
-      url: "#",
-      icon: LayoutDashboard,
-      id: "overview",
-    },
-    {
-      title: "Камеры",
-      url: "#",
-      icon: Video,
-      id: "cameras",
-    },
-    {
-      title: "СИЗ и зоны",
-      url: "#",
-      icon: Shield,
-      id: "ppe",
-    },
-    {
-      title: "Груз",
-      url: "#",
-      icon: Package,
-      id: "cargo",
-    },
-    {
-      title: "Загрузка",
-      url: "#",
-      icon: BarChart3,
-      id: "loading",
-    },
-    {
-      title: "Отчёты",
-      url: "#",
-      icon: FileText,
-      id: "reports",
-    },
-    {
-      title: "События",
-      url: "#",
-      icon: AlertCircle,
-      id: "events",
-    },
-  ],
-  user: {
-    name: "Иван Иванов",
-    email: "ivan@example.com",
-    avatar: "",
-  },
-};
+import { useLanguage } from "@/hooks/use-language";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activePage?: string;
@@ -106,6 +37,77 @@ export function AppSidebar({
   onTeamChange,
   ...props
 }: AppSidebarProps) {
+  const { t, language } = useLanguage();
+  
+  const data = {
+    teams: [
+      {
+        name: `${t.teams.site} #1`,
+        logo: LayoutDashboard,
+        plan: t.teams.active,
+      },
+      {
+        name: `${t.teams.site} #2`,
+        logo: LayoutDashboard,
+        plan: t.teams.inactive,
+      },
+      {
+        name: `${t.teams.site} #3`,
+        logo: LayoutDashboard,
+        plan: t.teams.inactive,
+      },
+    ],
+    navMain: [
+      {
+        title: t.nav.overview,
+        url: "#",
+        icon: LayoutDashboard,
+        id: "overview",
+      },
+      {
+        title: t.nav.cameras,
+        url: "#",
+        icon: Video,
+        id: "cameras",
+      },
+      {
+        title: t.nav.ppe,
+        url: "#",
+        icon: Shield,
+        id: "ppe",
+      },
+      {
+        title: t.nav.cargo,
+        url: "#",
+        icon: Package,
+        id: "cargo",
+      },
+      {
+        title: t.nav.loading,
+        url: "#",
+        icon: BarChart3,
+        id: "loading",
+      },
+      {
+        title: t.nav.reports,
+        url: "#",
+        icon: FileText,
+        id: "reports",
+      },
+      {
+        title: t.nav.events,
+        url: "#",
+        icon: AlertCircle,
+        id: "events",
+      },
+    ],
+    user: {
+      name: language === "en" ? "John Doe" : language === "de" ? "Hans Müller" : language === "es" ? "Juan García" : "Иван Иванов",
+      email: language === "en" ? "john.doe@example.com" : language === "de" ? "hans.mueller@example.com" : language === "es" ? "juan.garcia@example.com" : "ivan@example.com",
+      avatar: "",
+    },
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

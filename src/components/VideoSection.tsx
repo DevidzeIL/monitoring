@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
+import { useLanguage } from "@/hooks/use-language"
 
 interface VideoSectionProps {
   title: string
@@ -16,6 +17,7 @@ export default function VideoSection({
   timelineMarkers,
   imageSrc,
 }: VideoSectionProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
@@ -35,7 +37,7 @@ export default function VideoSection({
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-muted-foreground text-sm">Видеоплеер</span>
+            <span className="text-muted-foreground text-sm">{t.ui.videoPlayer}</span>
           )}
         </div>
         <div className="space-y-2">

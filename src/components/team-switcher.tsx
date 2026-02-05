@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useLanguage } from "@/hooks/use-language"
 
 export function TeamSwitcher({
   teams,
@@ -29,6 +30,7 @@ export function TeamSwitcher({
   onTeamChange?: (team: { name: string; logo: React.ElementType; plan: string }) => void
 }) {
   const { isMobile } = useSidebar()
+  const { t } = useLanguage()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
 
   React.useEffect(() => {
@@ -69,7 +71,7 @@ export function TeamSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Площадки
+              {t.teams.sites}
             </DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
@@ -93,7 +95,7 @@ export function TeamSwitcher({
                 <Plus className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">
-                Добавить площадку
+                {t.teams.addSite}
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

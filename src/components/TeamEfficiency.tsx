@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Users, TrendingUp } from "lucide-react"
 import { Progress } from "./ui/progress"
+import { useLanguage } from "@/hooks/use-language"
 
 interface Team {
   name: string
@@ -14,12 +15,13 @@ interface TeamEfficiencyProps {
 }
 
 export default function TeamEfficiency({ teams }: TeamEfficiencyProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-base font-medium flex items-center gap-2">
           <Users className="h-4 w-4" />
-          Эффективность бригад
+          {t.ui.teamEfficiency}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -32,7 +34,7 @@ export default function TeamEfficiency({ teams }: TeamEfficiencyProps) {
                     {team.name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {team.operations} операций
+                    {team.operations} {t.ui.operations}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">

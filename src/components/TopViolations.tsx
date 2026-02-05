@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
+import { useLanguage } from "@/hooks/use-language"
 
 interface Violation {
   type: string
@@ -12,10 +13,11 @@ interface TopViolationsProps {
 }
 
 export default function TopViolations({ violations }: TopViolationsProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base font-medium">Частые нарушения</CardTitle>
+        <CardTitle className="text-base font-medium">{t.ui.frequentViolations}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
@@ -33,7 +35,7 @@ export default function TopViolations({ violations }: TopViolationsProps) {
                     {violation.type}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {violation.count} случаев
+                    {violation.count} {t.ui.cases}
                   </p>
                 </div>
               </div>

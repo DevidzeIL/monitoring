@@ -1,15 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { useLanguage } from "@/hooks/use-language"
 
 interface ActivityChartProps {
   data: Array<{ time: string; work: number; idle: number }>
 }
 
 export default function ActivityChart({ data }: ActivityChartProps) {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-base font-medium">
-          Активность крана за смену
+          {t.components.craneActivity} {t.components.perShift}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -18,7 +20,7 @@ export default function ActivityChart({ data }: ActivityChartProps) {
             <div key={index} className="space-y-1">
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>{item.time}</span>
-                <span>Работа: {item.work}% | Простой: {item.idle}%</span>
+                <span>{t.loading.work}: {item.work}% | {t.loading.idle}: {item.idle}%</span>
               </div>
               <div className="flex gap-1 h-3">
                 <div

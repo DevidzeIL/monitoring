@@ -1,56 +1,61 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
 import { AlertTriangle, HardHat, Users, MapPin } from "lucide-react"
-
-const mockPPEData = {
-  withoutHelmet: 3,
-  withoutSafetyBelt: 2,
-  peopleUnderLoad: 1,
-  peopleInDangerZone: 5,
-}
-
-const mockViolations = [
-  {
-    id: 1,
-    type: "helmet",
-    person: "Рабочий #12",
-    location: "Зона крана",
-    time: "14:23",
-    severity: "high" as const,
-  },
-  {
-    id: 2,
-    type: "belt",
-    person: "Рабочий #8",
-    location: "Высота 15м",
-    time: "14:15",
-    severity: "high" as const,
-  },
-  {
-    id: 3,
-    type: "danger_zone",
-    person: "Рабочий #5",
-    location: "Под грузом",
-    time: "13:45",
-    severity: "critical" as const,
-  },
-  {
-    id: 4,
-    type: "helmet",
-    person: "Рабочий #21",
-    location: "Склад",
-    time: "13:30",
-    severity: "medium" as const,
-  },
-]
+import { useLanguage } from "../hooks/use-language"
 
 export default function PPEAndZonesPage() {
+  const { t, language } = useLanguage()
+  
+  const mockPPEData = {
+    withoutHelmet: 3,
+    withoutSafetyBelt: 2,
+    peopleUnderLoad: 1,
+    peopleInDangerZone: 5,
+  }
+
+  const mockViolations = [
+    {
+      id: 1,
+      type: "helmet",
+      person: `${t.ppe.worker} #12`,
+      location: t.ppe.craneZone,
+      time: "14:23",
+      severity: "high" as const,
+    },
+    {
+      id: 2,
+      type: "belt",
+      person: `${t.ppe.worker} #8`,
+      location: language === "en" ? "Height 15m" : "Высота 15м",
+      time: "14:15",
+      severity: "high" as const,
+    },
+    {
+      id: 3,
+      type: "danger_zone",
+      person: `${t.ppe.worker} #5`,
+      location: t.ppe.underCargo,
+      time: "13:45",
+      severity: "critical" as const,
+    },
+    {
+      id: 4,
+      type: "helmet",
+      person: `${t.ppe.worker} #21`,
+      location: t.ppe.warehouse,
+      time: "13:30",
+      severity: "medium" as const,
+    },
+  ]
+  
   return (
     <div className="max-w-7xl mx-auto w-full space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Контроль СИЗ и опасных зон</h2>
+        <h2 className="text-2xl font-bold mb-2">{t.pageTitles.ppe}</h2>
         <p className="text-muted-foreground">
-          Мониторинг соблюдения требований охраны труда в реальном времени
+          {language === "en"
+            ? "Real-time monitoring of occupational safety requirements compliance"
+            : "Мониторинг соблюдения требований охраны труда в реальном времени"}
         </p>
       </div>
 
@@ -61,7 +66,7 @@ export default function PPEAndZonesPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Без каски
+                  {t.ppe.withoutHelmet}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockPPEData.withoutHelmet}
@@ -77,7 +82,7 @@ export default function PPEAndZonesPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Без страховки
+                  {t.ppe.withoutSafety}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockPPEData.withoutSafetyBelt}
@@ -93,7 +98,7 @@ export default function PPEAndZonesPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Под грузом
+                  {t.ppe.underLoad}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockPPEData.peopleUnderLoad}
@@ -109,7 +114,7 @@ export default function PPEAndZonesPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">
-                  В опасной зоне
+                  {t.ppe.inDangerZone}
                 </p>
                 <p className="text-3xl font-bold text-card-foreground">
                   {mockPPEData.peopleInDangerZone}
@@ -124,7 +129,7 @@ export default function PPEAndZonesPage() {
       {/* Violations List */}
       <Card>
         <CardHeader>
-          <CardTitle>Зафиксированные нарушения</CardTitle>
+          <CardTitle>{t.ppe.recordedViolations}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -163,10 +168,10 @@ export default function PPEAndZonesPage() {
                     }
                   >
                     {violation.type === "helmet"
-                      ? "Нет каски"
+                      ? t.ppe.noHelmet
                       : violation.type === "belt"
-                      ? "Нет страховки"
-                      : "Опасная зона"}
+                      ? t.ppe.noSafety
+                      : t.ppe.dangerZone}
                   </Badge>
                 </div>
               </div>
